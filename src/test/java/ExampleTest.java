@@ -20,21 +20,22 @@ import java.util.HashMap;
 
 public class ExampleTest
 {
-    private static final String USERNAME = "";
-    private static final String ACCESS_KEY = "";
     private static final String SAUCE_URI_FORMAT = "https://%s:%s@ondemand.eu-central-1.saucelabs.com/wd/hub";
     private static final String SAUCE_URI = "https://ondemand.eu-central-1.saucelabs.com/wd/hub";
+
+    private final String username = System.getenv("SAUCE_USERNAME");
+    private final String accessKey = System.getenv("SAUCE_API_KEY");
 
     private WebDriver driver;
 
     @BeforeEach
-    void setUp() throws MalformedURLException
+    void setUp()
     {
         WebDriverManager.chromedriver().setup();
     }
 
     @Test
-    void testRemoteWDBuilderNoSession() throws MalformedURLException
+    void testRemoteWDBuilderNoSession()
     {
         // Case 1: Unable to create test session when WD created by RemoteWebDriverBuilder with sauceOptions
         // Error message:
@@ -43,13 +44,13 @@ public class ExampleTest
 
         ChromeOptions options = createBaseOptions();
         HashMap<String, Object> sauceOptions = new HashMap<>();
-        sauceOptions.put("username", USERNAME);
-        sauceOptions.put("accessKey", ACCESS_KEY);
+        sauceOptions.put("username", username);
+        sauceOptions.put("accessKey", accessKey);
         sauceOptions.put("name", "Unable to create session test");
         options.setCapability("sauce:options", sauceOptions);
 
         ClientConfig cc = ClientConfig.defaultConfig()
-                .baseUri(URI.create(String.format(SAUCE_URI_FORMAT, USERNAME, ACCESS_KEY)))
+                .baseUri(URI.create(String.format(SAUCE_URI_FORMAT, username, accessKey)))
                 .connectionTimeout(Duration.of(3, ChronoUnit.MINUTES));
 
         driver = RemoteWebDriver.builder()
@@ -67,7 +68,7 @@ public class ExampleTest
     }
 
     @Test
-    void testRemoteWDBuilderSessionCreatedNoBiDi() throws MalformedURLException
+    void testRemoteWDBuilderSessionCreatedNoBiDi()
     {
         // Case 2: Same as Case 1, but add sauceOption devTools=true. Session created but RemoteDriver doesn't have BiDi capability
         // Error message:
@@ -75,14 +76,14 @@ public class ExampleTest
 
         ChromeOptions options = createBaseOptions();
         HashMap<String, Object> sauceOptions = new HashMap<>();
-        sauceOptions.put("username", USERNAME);
-        sauceOptions.put("accessKey", ACCESS_KEY);
+        sauceOptions.put("username", username);
+        sauceOptions.put("accessKey", accessKey);
         sauceOptions.put("name", "No BiDi remote driver");
         sauceOptions.put("devTools", "true");
         options.setCapability("sauce:options", sauceOptions);
 
         ClientConfig cc = ClientConfig.defaultConfig()
-                .baseUri(URI.create(String.format(SAUCE_URI_FORMAT, USERNAME, ACCESS_KEY)))
+                .baseUri(URI.create(String.format(SAUCE_URI_FORMAT, username, accessKey)))
                 .connectionTimeout(Duration.of(3, ChronoUnit.MINUTES));
 
         driver = RemoteWebDriver.builder()
@@ -100,14 +101,14 @@ public class ExampleTest
     }
 
     @Test
-    void testRemoteWDBuilderWithoutSauceCapabilities() throws MalformedURLException
+    void testRemoteWDBuilderWithoutSauceCapabilities()
     {
         // Case 3: BiDi RemoteDriver created successfully without SauceLabs capabilities.
 
         ChromeOptions options = createBaseOptions();
 
         ClientConfig cc = ClientConfig.defaultConfig()
-                .baseUri(URI.create(String.format(SAUCE_URI_FORMAT, USERNAME, ACCESS_KEY)))
+                .baseUri(URI.create(String.format(SAUCE_URI_FORMAT, username, accessKey)))
                 .connectionTimeout(Duration.of(3, ChronoUnit.MINUTES));
 
         driver = RemoteWebDriver.builder()
@@ -131,8 +132,8 @@ public class ExampleTest
 
         ChromeOptions options = createBaseOptions();
         HashMap<String, Object> sauceOptions = new HashMap<>();
-        sauceOptions.put("username", USERNAME);
-        sauceOptions.put("accessKey", ACCESS_KEY);
+        sauceOptions.put("username", username);
+        sauceOptions.put("accessKey", accessKey);
         sauceOptions.put("name", "Success BiDi without RemoteWebDriverBuilder");
         options.setCapability("sauce:options", sauceOptions);
 
