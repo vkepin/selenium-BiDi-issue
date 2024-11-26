@@ -47,7 +47,7 @@ README.md
 
 ## How to Run the Tests
 
-1. `git clone https://github.com/vkepin/selenium-relative-search-issue.git`
+1. `git clone https://github.com/vkepin/selenium-BiDi-issue.git`
 2. `export SAUCE_USERNAME=<username>`
 3. `export SAUCE_API_KEY=<key>`
 4. `./gradlew test`
