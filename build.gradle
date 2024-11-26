@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'io.github.bonigarcia:webdrivermanager:5.9.2'
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.25.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
+}
+
+test {
+    useJUnitPlatform()
+}
